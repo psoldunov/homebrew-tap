@@ -1,6 +1,6 @@
 cask "skrepka" do
-  version "0.1.0"
-  sha256 "798d42c44e34ed967614d7a6f53bbcd7aa52b413608eb947261079902552dd2c"
+  version "0.1.1"
+  sha256 "e4bf60abf6cfb0b65f9a3ded9f2e8cd2897d1f7d06b45a8a774c1a28242b0751"
 
   # No `verified:` — deprecated in Homebrew 6.0, and unnecessary here anyway:
   # the download host and the homepage are the same repository.
@@ -28,19 +28,44 @@ cask "skrepka" do
   # No `auto_updates`: Skrepka ships no in-app updater, so `brew upgrade` is the
   # whole update path and must not be told to leave this cask alone.
 
-  # `~/Library/Application Support/com.psoldunov.skrepka` is the SwiftData store
-  # plus the externally-stored image payloads beside it — the clipboard history
-  # itself. That is why it is on `zap` and not on `uninstall`.
+  # `~/Library/Application Support/<bundle id>` is the SwiftData store plus the
+  # externally-stored image payloads beside it — the clipboard history itself.
+  # That is why it is on `zap` and not on `uninstall`.
+  #
+  # Both identifiers are listed: 0.1.1 moved the bundle from
+  # `com.psoldunov.skrepka` to `dev.soldunov.skrepka` without migrating, so a
+  # machine that ever ran 0.1.0 still has the old tree — including the old
+  # history, in the clear — and `zap` is what is supposed to leave nothing behind.
   zap trash: [
     "~/Library/Application Support/com.psoldunov.skrepka",
+    "~/Library/Application Support/dev.soldunov.skrepka",
     "~/Library/Caches/com.psoldunov.skrepka",
+    "~/Library/Caches/dev.soldunov.skrepka",
     "~/Library/Preferences/com.psoldunov.skrepka.plist",
+    "~/Library/Preferences/dev.soldunov.skrepka.plist",
     "~/Library/Saved Application State/com.psoldunov.skrepka.savedState",
+    "~/Library/Saved Application State/dev.soldunov.skrepka.savedState",
   ]
 
   # Launch at login is registered with `SMAppService.mainApp`, so launchd owns
   # it and neither `uninstall` nor `zap` can reach it.
+  #
+  # The upgrade note is here rather than in the release notes alone because
+  # macOS keys per-app state to the bundle identifier: 0.1.1 changed it, so
+  # everything 0.1.0 stored is orphaned rather than migrated, and `brew upgrade`
+  # is the moment the user finds out.
   caveats <<~EOS
+    Upgrading from 0.1.0: the bundle identifier changed, so macOS treats this as
+    a different app. Clipboard history, settings and per-app exclusions start
+    over, Accessibility has to be granted again on the first paste, and "Launch
+    at login" needs switching back on. The old history is still on disk at
+    ~/Library/Application Support/com.psoldunov.skrepka — copy it over
+    ~/Library/Application Support/dev.soldunov.skrepka before first launch to
+    keep it, or delete it, but do not leave it there unread: it is your whole
+    clipboard history in the clear. Stale "Skrepka" entries under System
+    Settings → Privacy & Security → Accessibility and → General → Login Items &
+    Extensions are dead and can be removed.
+
     If you turned on "Launch at login", switch it off in Skrepka's Settings
     before uninstalling — otherwise remove "Skrepka" afterwards under
     System Settings → General → Login Items & Extensions.

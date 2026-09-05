@@ -42,6 +42,24 @@ Skrepka has no in-app updater. `brew upgrade` is the whole update path:
 brew upgrade --cask skrepka
 ```
 
+#### Upgrading from 0.1.0
+
+Skrepka 0.1.1 moved its bundle identifier from `com.psoldunov.skrepka` to
+`dev.soldunov.skrepka` and ships no migration. macOS keys per-app state to that
+identifier, so after the upgrade the clipboard history is empty, settings and
+per-app exclusions are back to their defaults, Accessibility has to be granted
+again on the first paste, and **Launch at login** needs switching back on.
+
+The 0.1.0 history is not deleted — it is still at
+`~/Library/Application Support/com.psoldunov.skrepka`. Copy that folder over
+`~/Library/Application Support/dev.soldunov.skrepka` before first launch to
+carry it across. If you do not want it, delete it rather than leaving it: it is
+your whole clipboard history, in the clear.
+
+The dead "Skrepka" entries under System Settings → Privacy & Security →
+Accessibility and → General → Login Items & Extensions belong to the old
+identifier and can be removed.
+
 ### Uninstalling
 
 ```sh
@@ -54,9 +72,11 @@ That leaves your clipboard history alone. To take it with you:
 brew uninstall --zap --cask skrepka
 ```
 
-`zap` removes `~/Library/Application Support/com.psoldunov.skrepka` — the
+`zap` removes `~/Library/Application Support/dev.soldunov.skrepka` — the
 SwiftData store and the image payloads beside it — along with the preferences
-and caches.
+and caches. It also removes the `com.psoldunov.skrepka` tree that Skrepka 0.1.0
+wrote under the old bundle identifier, so nothing is left behind on a machine
+that ran both.
 
 One thing `zap` cannot reach: if you turned on **Launch at login**, that
 registration belongs to launchd via `SMAppService`, not to any file Homebrew
