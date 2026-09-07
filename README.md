@@ -78,11 +78,18 @@ and caches. It also removes the `com.psoldunov.skrepka` tree that Skrepka 0.1.0
 wrote under the old bundle identifier, so nothing is left behind on a machine
 that ran both.
 
-One thing `zap` cannot reach: if you turned on **Launch at login**, that
-registration belongs to launchd via `SMAppService`, not to any file Homebrew
-owns. Switch it off in Skrepka's Settings before uninstalling, or remove
-"Skrepka" afterwards under System Settings → General → Login Items &
-Extensions.
+What `zap` cannot reach is anything that is not a file. Three things are not:
+
+- **Launch at login.** That registration belongs to launchd via `SMAppService`.
+  Switch it off in Skrepka's Settings before uninstalling, or remove "Skrepka"
+  afterwards under System Settings → General → Login Items & Extensions.
+- **Local Network access**, if you turned on Sync. Remove "Skrepka" under System
+  Settings → Privacy & Security → Local Network.
+- **This Mac's sync identity**, if you turned on Sync. It is a keychain item, not
+  a file — search "skrepka" in Keychain Access and delete what it finds.
+
+The devices you paired with are in the history store rather than the keychain,
+so `zap` does take those with it.
 
 ## Issues
 
