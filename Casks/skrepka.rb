@@ -1,6 +1,6 @@
 cask "skrepka" do
-  version "0.1.3"
-  sha256 "8a8acb49fd5859863e47bc405566b0adb6010ee04bfa5b0f4374b4cfdbb5f8c6"
+  version "0.1.4"
+  sha256 "e28dade339dc600256a595279979b3b6c4e54be3147d6ed160ea17f6531abe4c"
 
   # No `verified:` — deprecated in Homebrew 6.0, and unnecessary here anyway:
   # the download host and the homepage are the same repository.
@@ -50,6 +50,14 @@ cask "skrepka" do
   # Launch at login is registered with `SMAppService.mainApp`, so launchd owns
   # it and neither `uninstall` nor `zap` can reach it.
   #
+  # 0.1.4 adds two leftovers of the same shape, and for the same reason: `zap`
+  # moves files, and neither of these is one. Sync asks for Local Network
+  # access, which is a TCC grant; and its trust store keeps this Mac's sync
+  # identity as a generic-password keychain item. The app imports `SecItemAdd`
+  # and `SecItemCopyMatching` and no `SecItemDelete`, so nothing removes that
+  # item — not uninstalling, and not unpairing either. Both are in the caveats
+  # because there is nowhere else for them to go.
+  #
   # The upgrade note is here rather than in the release notes alone because
   # macOS keys per-app state to the bundle identifier: 0.1.1 changed it, so
   # everything 0.1.0 stored is orphaned rather than migrated, and `brew upgrade`
@@ -69,5 +77,12 @@ cask "skrepka" do
     If you turned on "Launch at login", switch it off in Skrepka's Settings
     before uninstalling — otherwise remove "Skrepka" afterwards under
     System Settings → General → Login Items & Extensions.
+
+    If you turned on Sync, two more things outlive an uninstall, because neither
+    is a file `zap` can move: the "Skrepka" entry under System Settings →
+    Privacy & Security → Local Network, and the keychain item holding this Mac's
+    sync identity — search "skrepka" in Keychain Access and delete what it
+    finds. Paired devices themselves live in the history store, so `zap` does
+    take those with it.
   EOS
 end
