@@ -1,6 +1,6 @@
 cask "skrepka" do
-  version "0.2.0"
-  sha256 "d3f89e02eed1b8976adf486c2ac4b3f936eb46ccdc364ef56cd5669920b4bec2"
+  version "0.2.1"
+  sha256 "03c58c7e60e9d5b8ba074bcb0931047b8cd21e92b12710e5c67171a6cdcb8fee"
 
   # No `verified:` — deprecated in Homebrew 6.0, and unnecessary here anyway:
   # the download host and the homepage are the same repository.
