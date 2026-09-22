@@ -28,6 +28,17 @@ cask "skrepka" do
   # No `auto_updates`: Skrepka ships no in-app updater, so `brew upgrade` is the
   # whole update path and must not be told to leave this cask alone.
 
+  # Skrepka sits in the menu bar from login to logout, so it is nearly always
+  # running when `brew upgrade` swaps the bundle out — and without this the old
+  # build keeps running from a bundle that is no longer on disk until the next
+  # login. `quit` asks it to exit first, and Homebrew reopens whatever it quit
+  # once the new version is in place. `brew uninstall` gets the same quit.
+  #
+  # Upgrades run the uninstall stanza of the cask that was *installed*, not of
+  # the one being installed, so this takes effect from the first upgrade after
+  # a version carrying it is on the machine.
+  uninstall quit: "dev.soldunov.skrepka"
+
   # `~/Library/Application Support/<bundle id>` is the SwiftData store plus the
   # externally-stored image payloads beside it — the clipboard history itself.
   # That is why it is on `zap` and not on `uninstall`.
