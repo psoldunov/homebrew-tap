@@ -4,7 +4,7 @@ cask "skrepka" do
 
   # No `verified:` — deprecated in Homebrew 6.0, and unnecessary here anyway:
   # the download host and the homepage are the same repository.
-  url "https://github.com/psoldunov/skrepka/releases/download/v#{version}/Skrepka.zip"
+  url "https://github.com/psoldunov/skrepka/releases/download/v#{version}/skrepka-macos-universal.zip"
   name "Skrepka"
   desc "Clipboard-history manager that lives in the menu bar"
   homepage "https://github.com/psoldunov/skrepka"
