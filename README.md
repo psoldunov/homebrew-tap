@@ -91,6 +91,21 @@ What `zap` cannot reach is anything that is not a file. Three things are not:
 The devices you paired with are in the history store rather than the keychain,
 so `zap` does take those with it.
 
+## Token Station
+
+Claude Code and OpenAI Codex plan usage in the macOS menu bar: session and weekly
+limits, reset countdowns, token counts and cost.
+[Source and issues](https://github.com/psoldunov/token-station).
+
+```sh
+brew install --cask psoldunov/tap/token-station
+```
+
+Token Station needs macOS 14 (Sonoma) or newer. The build is universal and the
+download is the notarized `TokenStation-macOS.zip` from the app's GitHub release.
+There is no `--HEAD` install: casks install prebuilt releases, and building from
+source needs Rust and Xcode (see the project README).
+
 ## Issues
 
 File them against the app they concern —
